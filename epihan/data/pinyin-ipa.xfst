@@ -1,0 +1,11 @@
+define OnsPlosive [ b -> p, d -> t, g -> k, p -> pʰ, t -> tʰ, k -> kʰ || [ .#. | [1|2|3|4|5] ] _ ] ;
+define OnsAffricate [ z -> t͡s, z h -> t͡ʂ, j -> t͡ɕ, c -> t͡sʰ, ch -> t͡ʂʰ, q -> t͡ɕʰ ] ;
+define OnsFricative [ f -> f, s -> s, sh -> ʂ, x -> ɕ, h -> x || .#. _ | [1|2|3|4|5] _ ] ;
+define OnsGlideFront1 [ y -> ɥ || _ u ] ;
+define OnsGlideFront2 [ y -> j ] ;
+define DelOnsGlide [ j -> 0 || _ i, ɥ -> 0 || _ y, w -> 0 || _ u ] ;
+define Onsets OnsPlosive .o. OnsAffricate .o. OnsFricative .o. OnsGlideFront1 .o. OnsGlideFront2 ;
+define PalatoLab [ u -> y || [  j|q|x|y] _ ] ;
+define AdHoc Onsets .o. DelOnsGlide ;
+define RimRhotic [ e r -> a ɻ || _ [1|2|3|4|5] ] ;
+define OnsLiquid [ r -> ɻ ] ;

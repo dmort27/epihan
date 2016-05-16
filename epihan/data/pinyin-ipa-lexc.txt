@@ -1,0 +1,17 @@
+Multichar_Symbols pʰ tʰ kʰ
+
+LEXICON Root
+b:p Rm ;
+d:t Rm ;
+g:k Rm ;
+p:pʰ  Rm ;
+t:tʰ  Rm ;
+k:kʰ  Rm ;
+
+LEXICON Rm
+a:a Tn ;
+i:i Tn ;
+u:u Tn ;
+
+LEXICON Tn
+1:^ #
