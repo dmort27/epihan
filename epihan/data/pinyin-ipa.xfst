@@ -18,7 +18,7 @@ define Nuclei [ a -> a, e -> ə, i -> i, o -> o, u -> u, v -> y ] ;
 define Codas [ i -> j, u -> w, %+ng -> ŋ || _ [ .#. | [1|2|3|4|5] ] ] ;
 define Rimes RimeRhotics .o. SpecialDiphthongs .o. PalatalLabialGlide .o. DelOnsGlide .o. MedialsToGlides .o. Nuclei .o. Codas ;
 
-define Tones [ [1|2|3|4|5] -> 0 || .#. ] .o. [ [1|2|3|4|5] -> %- ] ;
+define Tones [ [1|2|3|4|5] -> 0 || _ .#. ] .o. [ [1|2|3|4|5] -> %- ] ;
 
 ! define Pinyin Onsets .o. Rimes .o. Tones ;
 
