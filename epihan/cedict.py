@@ -26,10 +26,15 @@ class CEDict(object):
                 elif lemma_re.match(line):
                     match = lemma_re.match(line)
                     hanzi = match.group('hanzi').split(' ')
-                    pinyin = match.group('pinyin').split(' ')
+                    pinyin = self._normalize_pinyin(match.group('pinyin')).split(' ')
                     english = match.group('english').split('/')
-                    cedict[hanzi[1]] = (pinyin, english)
+                    cedict[hanzi[1]] = (pinyin, english)  # Simplified characters only.
         return cedict
+
+    def _normalize_pinyin(self, text):
+        text = text.lower()
+        text = text.replace('u:', 'v')
+        return text
 
     def _get_every_han_char(self):
         return functools.reduce(lambda a, b: a | b, [set(x) for x in iter(self.hanzi)], set())
@@ -56,5 +61,11 @@ class CEDict(object):
         text += '{} 1'.format(self.state)
         return text
 
-    def write_hanzi_to_pinyin_fst(self, xfst):
-        pass
+    def write_hanzi_to_pinyin_lexc(self, lexc):
+        with codecs.open(lexc, 'w', 'utf-8') as f:
+            print(u'LEXICON Root', file=f)
+            for hanzi, fields in self.hanzi.iteritems():
+                pinyin, _ = fields
+                hanzi = ''.join([h.ljust(len(p), '0') for (h, p) in zip(list(hanzi), pinyin)])
+                pinyin = ''.join(pinyin)
+                print(u'{}:{}\t# ;'.format(hanzi, pinyin), file=f)
