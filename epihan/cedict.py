@@ -31,13 +31,29 @@ class CEDict(object):
                 elif lemma_re.match(line):
                     match = lemma_re.match(line)
                     hanzi = match.group('hanzi').split(' ')
-                    pinyin = self._normalize_pinyin(match.group('pinyin')).split(' ')
+                    pinyin = match.group('pinyin').split(' ')
                     english = match.group('english').split('/')
                     cedict[hanzi[1]] = (pinyin, english)  # Simplified characters only.
         return cedict
 
 
 class CEDictFST(CEDict):
+    def _read_cedict(self, dict_file):
+        comment_re = re.compile('\s*#')
+        lemma_re = re.compile('(?P<hanzi>[^]]+) \[(?P<pinyin>[^]]+)\] /(?P<english>.+)/')
+        cedict = {}
+        with codecs.open(dict_file, 'r', 'utf-8') as f:
+            for line in f:
+                if comment_re.match(line):
+                    pass
+                elif lemma_re.match(line):
+                    match = lemma_re.match(line)
+                    hanzi = match.group('hanzi').split(' ')
+                    pinyin = self._normalize_pinyin(match.group('pinyin')).split(' ')
+                    english = match.group('english').split('/')
+                    cedict[hanzi[1]] = (pinyin, english)  # Simplified characters only.
+        return cedict
+
         def _normalize_pinyin(self, text):
             text = text.lower()
             text = text.replace('u:', 'v')
