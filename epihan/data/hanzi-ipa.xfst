@@ -1,13 +1,20 @@
+echo >> Clearing stack
 clear stack
 
+define Tones [0|1|2|3|4|5] ;
+define PhoneticVowels [a|e|i|o|u|ə] ;
+define Alveopalatals [j|q|x|y] ;
+define Labials [b|p|m|f] ;
+
+echo >> Defining rules
 ! Pinyin to Phonemic Pinyin
 define Digraphs [ [ z h ] -> %+zh, [ c h ] -> %+ch, [ s h ] -> %+sh, [ n g ] -> %+ng ] ;
 define SpecialDiphthongs1 [ [ i u ] -> [ i o u ], [ a o ] -> [ a u ] ] ;
-define HighFrontRoundedV [ u -> v || [j|q|x|y] _ ] ;
-define RimeRhotics [ e r -> a r || _ [1|2|3|4|5] ] ;
+define HighFrontRoundedV [ u -> v || Alveopalatals _ ] ;
+define RimeRhotics [ e r -> a r || _ Tones ] ;
 define DelOnsetW [ w -> 0 || _ u ] ;
 define DelOnsetY [ y -> 0 || _ [u|i|v] ] ;
-define SpecialDiphthongs2 [ o -> {uo} || [b|p|m|f] _ ] ;
+define SpecialDiphthongs2 [ o -> {uo} || Labials _ ] ;
 define Pinyin2Phonemic Digraphs
        .o. SpecialDiphthongs1
        .o. HighFrontRoundedV
@@ -18,16 +25,16 @@ define Pinyin2Phonemic Digraphs
        ;
 
 ! Phonemic Pinyin to IPA
-define OnsPlosive [ b -> p, d -> t, g -> k, p -> pʰ, t -> tʰ, k -> kʰ || [ .#. | [1|2|3|4|5] ] _ ] ;
+define OnsPlosive [ b -> p, d -> t, g -> k, p -> pʰ, t -> tʰ, k -> kʰ || [ .#. | Tones ] _ ] ;
 define OnsAffricate [ z -> t͡s, %+zh -> t͡ʂ, j -> t͡ɕ, c -> t͡sʰ, %+ch -> t͡ʂʰ, q -> t͡ɕʰ ] ;
 define OnsFricative [ f -> f, s -> s, %+sh -> ʂ, x -> ɕ, h -> x ] ;
 define OnsY1 [ y -> ɥ || _ [u|v] ] ;
 define OnsY2 [ y -> j ] ;
 define Nuclei [ e -> ə || _ [ .#. | n | %+ng ] ] .o. [ v -> y ] ;
-define Codas [ i -> j, u -> w, %+ng -> ŋ || [a|e|i|o|u|ə] _ [1|2|3|4|5] ] ;
+define Codas [ i -> j, u -> w, %+ng -> ŋ || PhoneticVowels _ Tones ] ;
 define Rhotics [ r -> ɻ ] ;
-define Tones1 [ [1|2|3|4|5] -> 0 || _ .#. ] ;
-define Tones2 [ [1|2|3|4|5] -> "," ] ;
+define Tones1 [ Tones -> 0 || _ .#. ] ;
+define Tones2 [ Tones -> "," ] ;
 define Phonemic2IPA OnsPlosive
        .o. OnsAffricate
        .o. OnsFricative
@@ -42,7 +49,15 @@ define Phonemic2IPA OnsPlosive
 
 define Pinyin2IPA Pinyin2Phonemic .o. Phonemic2IPA ;
 
+echo >> Reading lexicon (Hanzi2Pinyin)
 read lexc < cedict-lexc.txt
-push Pinyin2IPA
-turn stack
-compose net
+define Hanzi2Pinyin
+
+echo >> Clearing stack
+clear stack
+
+echo >> Defining regex (with Kleene closure)
+read regex Hanzi2Pinyin .o. Pinyin2IPA ;
+echo >> Saving stack
+save stack hanzi-ipa.fst
+echo >> Done!
