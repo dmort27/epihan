@@ -10,11 +10,11 @@ define OnsLiquid [ r -> ɻ ] ;
 define Onsets Digraphs .o. OnsPlosive .o. OnsAffricate .o. OnsFricative .o. OnsGlideFront1 .o. OnsGlideFront2 .o. OnsLiquid ;
 
 define RimeRhotics [ e r -> a ɻ || _ [1|2|3|4|5] ] ;
-define SpecialDiphthongs [ [ i u ] -> [ i o u ], [ a o ] -> [ a u ] ] ;
+define SpecialDiphthongs [ [ i u ] -> [ i o u ], [ a o ] -> [ a u ], [ o ] -> [ u o ] ] ;
 define PalatalLabialGlide [ u -> v || [j|q|x|y] _ ] ;
-define MedialsToGlides [ i -> j, u -> w, y -> ɥ || _ [i|e|a|o|u] ] ;
+define MedialsToGlides [ i -> j, u -> w, j -> ɥ || _ [i|e|a|o|u] ] ;
 define DelOnsGlide [ j -> 0 || _ i, ɥ -> 0 || _ y, w -> 0 || _ u ] ;
-define Nuclei [ a -> a, e -> ə, i -> i, o -> o, u -> u, v -> y ] ;
+define Nuclei [ a -> a, e -> ə || _ [ .#. | n | %+ng ] , i -> i, o -> o, u -> u, v -> y ] ;
 define Codas [ i -> j, u -> w, %+ng -> ŋ || _ [ .#. | [1|2|3|4|5] ] ] ;
 define Rimes RimeRhotics .o. SpecialDiphthongs .o. PalatalLabialGlide .o. DelOnsGlide .o. MedialsToGlides .o. Nuclei .o. Codas ;
 
@@ -27,4 +27,3 @@ define Tones [ [1|2|3|4|5] -> 0 || _ .#. ] .o. [ [1|2|3|4|5] -> %- ] ;
 ! load stack cedict-pinyin-foma.fst
 
 ! compose net
-

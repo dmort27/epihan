@@ -1,0 +1,48 @@
+clear stack
+
+! Pinyin to Phonemic Pinyin
+define Digraphs [ [ z h ] -> %+zh, [ c h ] -> %+ch, [ s h ] -> %+sh, [ n g ] -> %+ng ] ;
+define SpecialDiphthongs1 [ [ i u ] -> [ i o u ], [ a o ] -> [ a u ] ] ;
+define HighFrontRoundedV [ u -> v || [j|q|x|y] _ ] ;
+define RimeRhotics [ e r -> a r || _ [1|2|3|4|5] ] ;
+define DelOnsetW [ w -> 0 || _ u ] ;
+define DelOnsetY [ y -> 0 || _ [u|i|v] ] ;
+define SpecialDiphthongs2 [ o -> {uo} || [b|p|m|f] _ ] ;
+define Pinyin2Phonemic Digraphs
+       .o. SpecialDiphthongs1
+       .o. HighFrontRoundedV
+       .o. RimeRhotics
+       .o. DelOnsetW
+       .o. DelOnsetY
+       .o. SpecialDiphthongs2
+       ;
+
+! Phonemic Pinyin to IPA
+define OnsPlosive [ b -> p, d -> t, g -> k, p -> pʰ, t -> tʰ, k -> kʰ || [ .#. | [1|2|3|4|5] ] _ ] ;
+define OnsAffricate [ z -> t͡s, %+zh -> t͡ʂ, j -> t͡ɕ, c -> t͡sʰ, %+ch -> t͡ʂʰ, q -> t͡ɕʰ ] ;
+define OnsFricative [ f -> f, s -> s, %+sh -> ʂ, x -> ɕ, h -> x ] ;
+define OnsY1 [ y -> ɥ || _ [u|v] ] ;
+define OnsY2 [ y -> j ] ;
+define Nuclei [ e -> ə || _ [ .#. | n | %+ng ] ] .o. [ v -> y ] ;
+define Codas [ i -> j, u -> w, %+ng -> ŋ || [a|e|i|o|u|ə] _ [1|2|3|4|5] ] ;
+define Rhotics [ r -> ɻ ] ;
+define Tones1 [ [1|2|3|4|5] -> 0 || _ .#. ] ;
+define Tones2 [ [1|2|3|4|5] -> "," ] ;
+define Phonemic2IPA OnsPlosive
+       .o. OnsAffricate
+       .o. OnsFricative
+       .o. OnsY1
+       .o. OnsY2
+       .o. Nuclei
+       .o. Codas
+       .o. Rhotics
+       .o. Tones1
+       .o. Tones2
+        ;
+
+define Pinyin2IPA Pinyin2Phonemic .o. Phonemic2IPA ;
+
+read lexc < cedict-lexc.txt
+push Pinyin2IPA
+turn stack
+compose net
