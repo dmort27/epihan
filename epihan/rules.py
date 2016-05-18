@@ -47,5 +47,4 @@ class Rules(object):
     def apply(self, text):
         for rule in self.rules:
             text = rule(text)
-            print(text)
         return text
