@@ -11,9 +11,10 @@ setup(name='epihan',
       install_requires=['setuptools',
                         'unicodecsv',
                         'regex',
-                        'panphon>=0.3'],
+                        'panphon>=0.3',
+                        'marisa_trie'],
       packages=['epihan'],
       package_dir={'epitran': 'epitran'},
-      package_data={'epitran': ['data/*.csv']},
+      package_data={'epitran': ['data/*.csv', 'data/*.txt']},
       zip_safe=True
       )
