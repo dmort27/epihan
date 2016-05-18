@@ -47,17 +47,23 @@ class VectorsWithIPASpace(_epihan.Normalizer):
             else:
                 return [to_vector(seg) for seg in self.ft.segs(phon)]
 
-        def hz_vector(hz, syl):
-            pass
+        def hz_vector((hz, syl)):
+            (segs, vectors) = zip(*to_vectors(syl))
+            hz_padded = [hz] + [''] * (len(segs) - 1)
+            return zip(hz_padded, segs, vectors)
 
         if normpunc:
             word = self.normalize_punc(word)
+        aggregated_segs  = []
         tokens = self.cedict.tokenize(word)
         for token in tokens:
             if token in self.cedict.hanzi:
                 pinyin = self.cedict.hanzi[token]
-                ipa = self.rules.apply(pinyin)
+                ipa = self.rules.apply(pinyin.lower())
+                cat, cap = cap_and_cap(pinyin[0])
                 syls = ipa.split(',')
                 segs = itertools.chain(map(hz_vector, zip(token, syls)))
             else:
                 pass
+            aggregated_segs.append(segs)
+        aggregated_segs = itertools.chain(aggregated_segs)
