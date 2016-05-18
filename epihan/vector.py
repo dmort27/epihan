@@ -7,31 +7,15 @@ import itertools
 import panphon
 import cedict
 import rules
+import _epihan
 
 
-class VectorsWithIPASpace(object):
+class VectorsWithIPASpace(_epihan.Normalizer):
     def __init__(self, cedict_file, rule_file, space_file):
         self.ft = panphon.FeatureTable()
         self.cedict = cedict.CEDictTrie(cedict_file)
         self.rules = rules.Rules([rule_file])
         self.space = self._load_ipa_space(space_file)
-
-    def normalize_punc(self, text):
-        punc = [(u'\uff0c', u','),
-                (u'\uff01', u'!'),
-                (u'\uff1f', u'?'),
-                (u'\uff1b', u';'),
-                (u'\uff1a', u':'),
-                (u'\uff08', u'('),
-                (u'\uff09', u')'),
-                (u'\uff3b', u'['),
-                (u'\uff3d', u']'),
-                (u'\u3010', u'['),
-                (u'\u3011', u']'),
-                ]
-        for a, b in punc:
-            text = text.replace(a, b)
-        return text
 
     def _load_ipa_space(self, space_file):
         pass
