@@ -3,6 +3,7 @@ from __future__ import unicode_literals, print_function
 
 import unicodedata
 
+import itertools
 import panphon
 import cedict
 import rules
@@ -73,6 +74,6 @@ class VectorsWithIPASpace(object):
                 pinyin = self.cedict.hanzi[token]
                 ipa = self.rules.apply(pinyin)
                 syls = ipa.split(',')
-                segs = map(hz_vector, zip(token, syls))
+                segs = itertools.chain(map(hz_vector, zip(token, syls)))
             else:
                 pass
