@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 def normpunc(epi, s):
     def norm(c):
-        if c in epi.puncnorm:
-            return epi.puncnorm[c]
+        if c in dict(epi.punc):
+            return epi.normalize_punc(c)
         else:
             return c
     return ''.join(map(norm, s))
@@ -58,7 +58,7 @@ def print_space(output, space):
 
 
 def main(infiles, output):
-    epi = epihan.Epihan()
+    epi = epihan.Epihan('cedict', 'pinyin-to-ipa')
     ft = panphon.FeatureTable()
     space = Counter()
     for fn in infiles:
