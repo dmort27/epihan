@@ -13,8 +13,9 @@ setup(name='epihan',
                         'regex',
                         'panphon>=0.3',
                         'marisa_trie'],
+      scripts=['epihan/bin/zh2ipaspace.py'],
       packages=['epihan'],
-      package_dir={'epitran': 'epitran'},
-      package_data={'epitran': ['data/*.csv', 'data/*.txt']},
+      package_dir={'epihan': 'epihan'},
+      package_data={'epihan': ['data/*.csv', 'data/*.txt']},
       zip_safe=True
       )
