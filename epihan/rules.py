@@ -3,7 +3,6 @@ from __future__ import print_function, unicode_literals
 
 import unicodedata
 import codecs
-import sys
 
 import regex as re
 
