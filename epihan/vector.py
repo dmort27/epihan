@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, unicode_literals
 
+import logging
 import os.path
 import types
 import unicodedata
-import logging
 from itertools import chain
 
 import pkg_resources
