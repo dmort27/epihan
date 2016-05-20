@@ -7,7 +7,7 @@ import epihan
 import panphon
 import unicodecsv as csv
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.WARNING)
 
 
 def normpunc(epi, s):
