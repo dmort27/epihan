@@ -17,6 +17,7 @@ import rules
 
 logging.basicConfig(level=logging.DEBUG)
 
+
 class VectorsWithIPASpace(_epihan.Normalizer):
     def __init__(self, cedict_file, rule_file, space_file):
         self.ft = panphon.FeatureTable()
