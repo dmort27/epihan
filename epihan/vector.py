@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, unicode_literals
 
+import logging
 import os.path
 import types
 import unicodedata
 from itertools import chain
 
 import pkg_resources
+import unicodecsv as csv
 
 import _epihan
 import cedict
 import panphon
 import rules
-import unicodecsv as csv
 
+logging.basicConfig(level=logging.DEBUG)
 
 class VectorsWithIPASpace(_epihan.Normalizer):
     def __init__(self, cedict_file, rule_file, space_file):
@@ -98,9 +100,9 @@ class VectorsWithIPASpace(_epihan.Normalizer):
                 vec = [0] * self.num_panphon_fts
                 segs = [(cat, case, orth, phon, id_, vec)]
             aggregated_segs.append(segs)
-        aggregated_segs = chain.from_iterable(aggregated_segs)
+        aggregated_segs = list(chain.from_iterable(aggregated_segs))
         for seg in aggregated_segs:
-            print(seg)
+            logging.debug('seg={}'.format(seg))
             assert len(seg) == 6
             assert isinstance(seg[-1], types.ListType)
         return aggregated_segs
