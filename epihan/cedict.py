@@ -4,6 +4,9 @@ from __future__ import print_function, unicode_literals
 import codecs
 import functools
 import types
+import os.path
+
+import pkg_resources
 
 import marisa_trie
 import regex as re
@@ -12,19 +15,16 @@ ASCII_CHARS = ''.join([chr(i) for i in range(128)])
 
 
 class CEDict(object):
-    def __init__(self, dict_file):
-        self.hanzi = self._read_cedict(dict_file)
-        self.every_han_char = self._get_every_han_char()
-        self.isym_dict = [(x, i) for (i, x) in enumerate(self.every_han_char, 1)]
-        self.every_pinyin_char = self._get_every_pinyin_char()
-        self.osym_dict = [(x, i) for (i, x) in enumerate(self.every_pinyin_char, 1)]
-        self.state = 0
+    def __init__(self, cedict_file):
+        self.hanzi = self._read_cedict(cedict_file)
 
-    def _read_cedict(self, dict_file):
+    def _read_cedict(self, cedict_file):
         comment_re = re.compile('\s*#')
         lemma_re = re.compile('(?P<hanzi>[^]]+) \[(?P<pinyin>[^]]+)\] /(?P<english>.+)/')
         cedict = {}
-        with codecs.open(dict_file, 'r', 'utf-8') as f:
+        cedict_file = os.path.join('data', cedict_file + '.txt')
+        cedict_file = pkg_resources.resource_filename(__name__, cedict_file)
+        with codecs.open(cedict_file, 'r', 'utf-8') as f:
             for line in f:
                 if comment_re.match(line):
                     pass
