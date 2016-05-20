@@ -4,6 +4,7 @@ from __future__ import print_function, unicode_literals
 import os.path
 import types
 import unicodedata
+import logging
 from itertools import chain
 
 import pkg_resources
@@ -13,6 +14,8 @@ import cedict
 import panphon
 import rules
 import unicodecsv as csv
+
+logging.basicConfig(level=logging.WARNING)
 
 
 class VectorsWithIPASpace(_epihan.Normalizer):
@@ -100,7 +103,7 @@ class VectorsWithIPASpace(_epihan.Normalizer):
             aggregated_segs.append(segs)
         aggregated_segs = list(chain.from_iterable(aggregated_segs))
         for seg in aggregated_segs:
-            print(seg)
+            logging.debug(seg)
             assert len(seg) == 6
             assert isinstance(seg[-1], types.ListType)
         return aggregated_segs
